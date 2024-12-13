@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/app/_components/atoms/ui/button";
-import { Menu, X, Home, User, Settings, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { SidebarTrigger } from '../../atoms/ui/sidebar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../atoms/ui/dropdown-menu';
 import { useTheme } from 'next-themes';
+import { SignInButton, UserButton, useUser } from '@clerk/nextjs';
 
 const NavbarDashboard = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -13,7 +14,7 @@ const NavbarDashboard = () => {
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
-
+    const { isSignedIn, user } = useUser();
     return (
         <div>
             <nav className="w-full shadow-sm border-b">
@@ -55,7 +56,13 @@ const NavbarDashboard = () => {
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        <Button variant="outline">Login</Button>
+                        {isSignedIn ?
+                            <UserButton />
+                            :
+                            <SignInButton>
+                                <Button variant="outline">Login</Button>
+                            </SignInButton>
+                        }
                     </div>
                 </div>
             </nav>
@@ -71,36 +78,22 @@ const NavbarDashboard = () => {
                 <div className="shadow-md">
                     <div className="container mx-auto p-4">
                         <div className="grid gap-4">
-                            <a
-                                href="/"
-                                className="flex items-center space-x-2 p-2 hover:border-gray-100 
-                  transition-all duration-300 ease-in-out transform hover:translate-x-2"
-                            >
-                                <Home className="h-5 w-5" />
-                                <span>Home</span>
-                            </a>
-                            <a
-                                href="/contact"
-                                className="flex items-center space-x-2 p-2 hover:border-gray-100 
-                  transition-all duration-300 ease-in-out transform hover:translate-x-2"
-                            >
-                                <Settings className="h-5 w-5" />
-                                <span>Contact</span>
-                            </a>
-
                             {/* Mobile Action Buttons */}
                             <div className="flex flex-col space-y-2 mt-4">
-                                <Button
-                                    variant="outline"
-                                    className="transition-transform duration-300 ease-in-out active:scale-95"
-                                >
-                                    Login
-                                </Button>
-                                <Button
-                                    className="transition-transform duration-300 ease-in-out active:scale-95"
-                                >
-                                    Sign Up
-                                </Button>
+                                {isSignedIn ?
+                                    <div className='flex items-center gap-2 bg-white shadow-md py-4 px-2 rounded-md transition-transform duration-300 ease-in-out active:scale-95"'>
+                                        <UserButton />{user.emailAddresses[0].emailAddress}
+                                    </div>
+                                    :
+                                    <SignInButton>
+                                        <Button
+                                            variant="outline"
+                                            className="transition-transform duration-300 ease-in-out active:scale-95"
+                                        >
+                                            Login
+                                        </Button>
+                                    </SignInButton>
+                                }
                             </div>
                         </div>
                     </div>

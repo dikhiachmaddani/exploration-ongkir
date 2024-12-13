@@ -6,6 +6,7 @@ import { Input } from "./_components/atoms/ui/input";
 import useCake from "./_hook/useCake";
 import MainLayout from "./_components/template/main-layout";
 import { useState } from "react";
+import Image from "next/image";
 
 function Home() {
   const { data: datacake = [] } = useCake();
@@ -17,7 +18,7 @@ function Home() {
     <MainLayout>
       <section className="container mx-auto px-4">
         <h1 className="text-4xl font-bold text-center mt-12">
-          "Hitung Ongkir, Hemat Waktu, Pilih Sesuai Kantong!"
+          {`"Hitung Ongkir, Hemat Waktu, Pilih Sesuai Kantong!"`}
         </h1>
         <Input
           type="search"
@@ -28,11 +29,11 @@ function Home() {
         />
         <div className="grid grid-cols-12 gap-6">
           {filteredCakes.map((cake, index) => (
-            <Link href={`/${cake.id}/detail`} className="col-span-4">
-              <div key={index} >
+            <Link key={index} href={`/${cake.id}/detail`} className="col-span-4">
+              <div>
                 <Card>
                   <CardHeader>
-                    <img
+                    <Image
                       src={cake.img}
                       alt={`Image of ${cake.name}`}
                       className="w-full h-48 object-cover"

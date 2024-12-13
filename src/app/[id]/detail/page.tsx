@@ -9,9 +9,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { RajaOngkirResponse } from "@/commons/types/cost/response";
 import useItems from "@/app/_hook/useItems";
+import { toast } from 'react-toastify';
 
 function Home() {
-  // const 
   const [serverResponse, setServerResponse] = useState<RajaOngkirResponse>();
   const { data } = useItems();
   const {
@@ -24,11 +24,10 @@ function Home() {
 
   const onSubmit = async (data: PostFormData) => {
     try {
-      const response = await axios.post("/api/rajaongkir", data); // Replace with your POST API route
+      const response = await axios.post("/api/rajaongkir", data);
       setServerResponse(response.data);
-    } catch (error: any) {
-      console.log(error);
-
+    } catch {
+      toast("Gagal mendapatkan estimasi!");
     }
   };
   return (
@@ -46,8 +45,8 @@ function Home() {
                   <div>
                     <label className="block font-medium">Origin</label>
                     <select className="w-full p-2 border rounded" {...register("origin")}>
-                      {data?.rajaongkir.results.map((city) => {
-                        return <option value={city.city_id}>{city.city_name}</option>
+                      {data?.rajaongkir.results.map((city, index) => {
+                        return <option key={`origin-${index}`} value={city.city_id}>{city.city_name}</option>
                       })}
                     </select>
                     {errors.origin && <p className="text-red-500">{errors.origin.message}</p>}
@@ -57,8 +56,8 @@ function Home() {
                   <div>
                     <label className="block font-medium">Destination</label>
                     <select className="w-full p-2 border rounded" {...register("destination")}>
-                      {data?.rajaongkir.results.map((city) => {
-                        return <option value={city.city_id}>{city.city_name}</option>
+                      {data?.rajaongkir.results.map((city, index) => {
+                        return <option key={`destination-${index}`} value={city.city_id}>{city.city_name}</option>
                       })}
                     </select>
                     {errors.destination && (
@@ -106,14 +105,14 @@ function Home() {
                     <p className="mb-4">
                       {serverResponse.rajaongkir.origin_details.city_name} ke {serverResponse.rajaongkir.destination_details.city_name}
                     </p>
-                    {serverResponse.rajaongkir.results.map((data) => (
-                      <div>
-                        {data.costs.map((cost) => (
-                          <div className="mb-3">
+                    {serverResponse.rajaongkir.results.map((data, index) => (
+                      <div key={`result-${index}`}>
+                        {data.costs.map((cost, index) => (
+                          <div key={`service-cost-${index}`} className="mb-3">
                             <p>service: {cost.service}</p>
                             <p>description: {cost.description}</p>
-                            {cost.cost.map((costData) => (
-                              <ul>
+                            {cost.cost.map((costData, index) => (
+                              <ul key={`cost-estimate-${index}`}>
                                 <li>Harga: {costData.value}</li>
                                 <li>Estimasi: {costData.etd}</li>
                               </ul>

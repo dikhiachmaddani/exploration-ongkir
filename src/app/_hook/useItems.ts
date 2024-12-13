@@ -1,6 +1,4 @@
 import { CityResponse } from "@/commons/types/city/type";
-import { envClient } from "@/configs/env-client.config";
-import { axiosInstance } from "@/utils/axios-instance";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 

@@ -2,7 +2,6 @@ import { ThemeProvider } from "@/app/_components/atoms/providers/theme-provider"
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 import "@/styles/globals.css";
-import NavbarMainPage from "./_components/molecules/navigation/NavbarMainPage";
 import { ClerkProvider } from '@clerk/nextjs'
 import ReactQueryProvider from "@/utils/react-query";
 

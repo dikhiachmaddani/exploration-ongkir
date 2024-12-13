@@ -5,6 +5,7 @@ import { AppSidebar } from "@/app/_components/molecules/sidebar/AppSidebar";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
 import NavbarDashboard from "../_components/molecules/navigation/NavbarDashboard";
+import { GuardProvider } from "../_components/atoms/providers/guard-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -39,14 +40,16 @@ export default async function RootLayout({ children }: Readonly<LayoutProps>) {
   const cookieStore = await cookies()
   const defaultOpen = cookieStore.get("sidebar:state")?.value === "true"
   return (
-    <SidebarProvider defaultOpen={defaultOpen}>
-      <AppSidebar />
-      <SidebarInset>
-        <NavbarDashboard />
-        <main className="p-4">
-          {children}
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+    <GuardProvider>
+      <SidebarProvider defaultOpen={defaultOpen}>
+        <AppSidebar />
+        <SidebarInset>
+          <NavbarDashboard />
+          <main className="p-4">
+            {children}
+          </main>
+        </SidebarInset>
+      </SidebarProvider>
+    </GuardProvider>
   );
 }

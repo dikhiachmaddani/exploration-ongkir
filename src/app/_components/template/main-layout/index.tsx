@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import NavbarMainPage from "../../molecules/navigation/NavbarMainPage";
+import 'react-toastify/dist/ReactToastify.css';
 
 interface LayoutProps {
     children: ReactNode

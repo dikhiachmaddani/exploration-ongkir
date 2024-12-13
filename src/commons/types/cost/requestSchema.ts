@@ -1,5 +1,4 @@
-import { z, ZodType } from "zod"; // Add new import
-import { TCreateCost } from "./types";
+import { z } from "zod";
 
 export const postSchema = z.object({
    origin: z.string().min(1, "Origin is required"),

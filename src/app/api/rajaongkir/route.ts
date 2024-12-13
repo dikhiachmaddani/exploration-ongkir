@@ -1,13 +1,10 @@
 import { envClient } from "@/configs/env-client.config";
 import axios from "axios";
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 export const revalidate = 60;
 
-export async function GET(req: NextApiRequest) {
-  const query = req.query;
-  
+export async function GET() {
   const data = await fetch('https://api.rajaongkir.com/starter/city', {
     headers: {
         key: envClient.API_KEY
