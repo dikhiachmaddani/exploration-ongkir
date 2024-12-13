@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "echo \"No tests available\" && exit 0"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.9.0",
